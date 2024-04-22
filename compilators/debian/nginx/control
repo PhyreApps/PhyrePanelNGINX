@@ -1,0 +1,9 @@
+Source: phyre-nginx
+Package: phyre-nginx
+Priority: optional
+Version: 1.22.0
+Section: web
+Maintainer: CloudVision Ltd.
+Homepage: https://www.phyrepanel.com
+Architecture: amd64
+Description: Phyre Panel Nginx Web Server

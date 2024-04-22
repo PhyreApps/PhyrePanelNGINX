@@ -1,0 +1,22 @@
+
+# Create nginx service
+cat > /etc/systemd/system/phyre-nginx.service << EOF
+[Unit]
+Description=phyre-nginx
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/phyre/nginx/sbin/nginx
+ExecReload=/usr/local/phyre/nginx/sbin/nginx -s reload
+ExecStop=/usr/local/phyre/nginx/sbin/nginx -s quit
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Start nginx service
+systemctl daemon-reload
+systemctl enable phyre-nginx.service
+systemctl start phyre-nginx.service
