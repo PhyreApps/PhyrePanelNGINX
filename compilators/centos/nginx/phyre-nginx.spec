@@ -28,7 +28,7 @@ make
 make install
 
 %files
-/$RPM_BUILD_ROOT/usr/local/phyre/nginx
+/usr/local/phyre/nginx
 
 %install
 rm -rf $RPM_BUILD_ROOT
