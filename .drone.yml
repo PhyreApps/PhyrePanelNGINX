@@ -21,19 +21,19 @@ steps:
       - mkdir -p /drone/src/deploy.txt
       - touch /drone/src/deploy.txt
       -
-      - mkdir -p /drone/src/.ssh
-      - touch /drone/src/.ssh/known_hosts
+      - mkdir ~/.ssh
+      - touch ~/.ssh/known_hosts
 
-      - touch /drone/src/.ssh/id_rsa
-      - echo "${ssh_deploy_key}" > /drone/src/.ssh/id_rsa
+      - touch ~/.ssh/id_rsa
+      - echo "${ssh_deploy_key}" > ~/.ssh/id_rsa
 
-      - chmod 0400 /drone/src/.ssh/id_rsa
-      - ssh-keyscan -t rsa github.com >> /drone/src/.ssh/known_hosts
-      - ssh-keyscan -t rsa github.com | ssh-keygen -lf - 
+      - chmod 0400 ~/.ssh/id_rsa
+      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      - ssh-keyscan -t rsa github.com | ssh-keygen -lf -
 
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
-      - git config --global user.signingkey /drone/src/.ssh/id_rsa
+      - git config --global user.signingkey ~/.ssh/id_rsa
       - git clone git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
       - cd /drone/src/Distributions
       - git checkout -b main
