@@ -4,6 +4,9 @@ name: CentOS
 steps:
   - name: run nginx build
     image: centos:latest
+    environment:
+      - SSH_DEPLOY_KEY: ${SSH_DEPLOY_KEY}
+
     commands:
       - sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
       - sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
@@ -26,7 +29,7 @@ steps:
 
 
       - touch ~/.ssh/id_rsa
-      - echo "${SSH_DEPLOY_KEY}" > ~/.ssh/id_rsa
+      - echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa
 
       - chmod 0400 ~/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
