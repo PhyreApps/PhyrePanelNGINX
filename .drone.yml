@@ -17,6 +17,6 @@ steps:
       - cd ~
       - wget https://nginx.org/packages/mainline/centos/7/SRPMS/nginx-1.25.5-1.el7.ngx.src.rpm
       - rpm -Uvh nginx-1.25.5-1.el7.ngx.src.rpm
-      - cp /compilators/centos/nginx/phyre-nginx.spec rpmbuild/SPECS/phyre-nginx.spec
+      - cp /drone/src/compilators/centos/nginx/phyre-nginx.spec /home/builder/rpmbuild/SPECS/phyre-nginx.spec
       - tree ~/rpmbuild
-      - rpmbuild -bb rpmbuild/SPECS/phyre-nginx.spec
+      - rpmbuild -bb /home/builder/rpmbuild/SPECS/phyre-nginx.spec
