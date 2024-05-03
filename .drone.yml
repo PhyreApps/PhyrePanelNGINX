@@ -5,7 +5,7 @@ steps:
   - name: run nginx build
     image: centos:latest
     environment:
-      - SSH_DEPLOY_KEY: ${SSH_DEPLOY_KEY}
+      SSH_DEPLOY_KEY: ${SSH_DEPLOY_KEY}
 
     commands:
       - sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
