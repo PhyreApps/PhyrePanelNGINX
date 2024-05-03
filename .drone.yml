@@ -17,6 +17,7 @@ steps:
 #      - cp /drone/src/compilators/centos/nginx/phyre-nginx.spec ~/rpmbuild/SPECS/phyre-nginx.spec
 #      - tree ~/rpmbuild
 #      - rpmbuild -bb ~/rpmbuild/SPECS/phyre-nginx.spec
+      - dnf -y install git openssh-clients tree
       - mkdir -p /drone/src/deploy.txt
       - touch /drone/src/deploy.txt
       - git clone git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
