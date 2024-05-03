@@ -24,8 +24,6 @@ Source9: nginx.check-reload.sh
 
 %build
 ./configure --prefix=/usr/local/phyre/nginx
-make
-make install
 
 %files
 /usr/local/phyre/nginx
