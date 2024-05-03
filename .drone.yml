@@ -19,14 +19,11 @@ steps:
 #      - rpmbuild -bb ~/rpmbuild/SPECS/phyre-nginx.spec
       - mkdir -p /drone/src/deploy.txt
       - touch /drone/src/deploy.txt
-
-  - name: git-push
-    image: appleboy/drone-git-push
-    settings:
-      branch: main
-      ssh_key:
-        from_secret: ssh_deploy_key
-      remote: git@github.com:PhyreApps/Distributions.git
-      force: true
-      commit: true
-      path: /drone/src/deploy.txt
+      - git clone git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
+      - cd /drone/src/Distributions
+      - git checkout -b main
+      - mv /drone/src/deploy.txt /drone/src/Distributions
+      - git add .
+      - git commit -m "Deploy to CentOS"
+      - git push origin main
+      - echo "Deployed to CentOS"
