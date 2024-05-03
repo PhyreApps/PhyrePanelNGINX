@@ -20,10 +20,12 @@ steps:
       - dnf -y install git
       - mkdir -p /drone/src/deploy.txt
       - touch /drone/src/deploy.txt
-      - echo "${ssh_deploy_key}" > ~/.ssh/drone-key.private
+      - mkdir -p /drone/src/.ssh
+      - touch /drone/src/.ssh/drone-key.private
+      - echo "${ssh_deploy_key}" > /drone/src/.ssh/drone-key.private
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
-      - git config --global user.signingkey ~/.ssh/drone-key.private
+      - git config --global user.signingkey /drone/src/.ssh/drone-key.private
       - git clone git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
       - cd /drone/src/Distributions
       - git checkout -b main
