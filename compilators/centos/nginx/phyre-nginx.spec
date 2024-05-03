@@ -82,7 +82,7 @@ Requires(pre): shadow-utils
 %define BASE_CONFIGURE_ARGS $(echo "--prefix=%{_sysconfdir}/phyre-nginx --sbin-path=%{_sbindir}/phyre-nginx --modules-path=%{_libdir}/phyre-nginx/modules --conf-path=%{_sysconfdir}/phyre-nginx/phyre-nginx.conf --error-log-path=%{_localstatedir}/log/phyre-nginx/error.log --http-log-path=%{_localstatedir}/log/phyre-nginx/access.log --pid-path=%{_localstatedir}/run/phyre-nginx.pid --lock-path=%{_localstatedir}/run/phyre-nginx.lock --http-client-body-temp-path=%{_localstatedir}/cache/phyre-nginx/client_temp --http-proxy-temp-path=%{_localstatedir}/cache/phyre-nginx/proxy_temp --http-fastcgi-temp-path=%{_localstatedir}/cache/phyre-nginx/fastcgi_temp --http-uwsgi-temp-path=%{_localstatedir}/cache/phyre-nginx/uwsgi_temp --http-scgi-temp-path=%{_localstatedir}/cache/phyre-nginx/scgi_temp --user=%{nginx_user} --group=%{nginx_group} --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module $( if [ 0%{?rhel} -eq 7 ] || [ 0%{?suse_version} -eq 1315 ]; then continue; else echo "--with-http_v3_module"; fi; ) --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module")
 
 Summary: High performance web server
-Name: nginx
+Name: phyre-nginx
 Version: %{base_version}
 Release: %{base_release}
 Vendor: NGINX Packaging <nginx-packaging@f5.com>
@@ -91,14 +91,14 @@ Group: %{_group}
 
 Source0: https://phyre-nginx.org/download/%{name}-%{version}.tar.gz
 Source1: logrotate
-Source2: nginx.conf
-Source3: nginx.default.conf
-Source4: nginx.service
-Source5: nginx.upgrade.sh
-Source6: nginx.suse.logrotate
-Source7: nginx-debug.service
-Source8: nginx.copyright
-Source9: nginx.check-reload.sh
+Source2: phyre-nginx.conf
+Source3: phyre-nginx.default.conf
+Source4: phyre-nginx.service
+Source5: phyre-nginx.upgrade.sh
+Source6: phyre-nginx.suse.logrotate
+Source7: phyre-nginx-debug.service
+Source8: phyre-nginx.copyright
+Source9: phyre-nginx.check-reload.sh
 
 
 

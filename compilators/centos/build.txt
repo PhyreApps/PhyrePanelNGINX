@@ -1,0 +1,80 @@
+# https://www.redhat.com/sysadmin/create-rpm-package
+
+
+sudo wget -q -O - http://www.atomicorp.com/installers/atomic | sh
+
+dnf -y install geoip-devel perl openssl-devel gd-devel libxslt-devel zlib-devel pcre-devel rpm-build gcc make rpmdevtools rpmlint tree
+
+
+useradd builder -m
+su - builder
+pwd
+cd ~
+
+rpmdev-setuptree
+
+
+wget https://nginx.org/packages/mainline/centos/7/SRPMS/nginx-1.25.5-1.el7.ngx.src.rpm
+
+rpm -Uvh nginx-1.25.5-1.el7.ngx.src.rpm
+tree ~/rpmbuild
+rpmbuild -bb rpmbuild/SPECS/nginx.spec
+
+mv ~/rpmbuild/SPECS/nginx.spec ~/rpmbuild/SPECS/phyre-nginx.spec
+mv ~/rpmbuild/SOURCES/nginx-1.25.5.tar.gz ~/rpmbuild/SOURCES/phyre-nginx-1.25.5.tar.gz
+mv ~/rpmbuild/SOURCES/nginx.check-reload.sh ~/rpmbuild/SOURCES/phyre-nginx.check-reload.sh
+mv ~/rpmbuild/SOURCES/nginx.conf ~/rpmbuild/SOURCES/phyre-nginx.conf
+mv ~/rpmbuild/SOURCES/nginx.copyright ~/rpmbuild/SOURCES/phyre-nginx.copyright
+mv ~/rpmbuild/SOURCES/nginx-debug.service ~/rpmbuild/SOURCES/phyre-nginx-debug.service
+mv ~/rpmbuild/SOURCES/nginx.default.conf ~/rpmbuild/SOURCES/phyre-nginx.default.conf
+mv ~/rpmbuild/SOURCES/nginx.service ~/rpmbuild/SOURCES/phyre-nginx.service
+mv ~/rpmbuild/SOURCES/nginx.suse.logrotate ~/rpmbuild/SOURCES/phyre-nginx.suse.logrotate
+mv ~/rpmbuild/SOURCES/nginx.upgrade.sh ~/rpmbuild/SOURCES/phyre-nginx.upgrade.sh
+
+
+
+
+cd ~/rpmbuild
+
+cat << EOF >> hello.sh
+#!/bin/sh
+echo "Hello world"
+EOF
+
+
+mkdir hello-0.0.1
+mv hello.sh hello-0.0.1
+
+tar --create --file hello-0.0.1.tar.gz hello-0.0.1
+
+mv hello-0.0.1.tar.gz ~/rpmbuild/SOURCES
+
+rpmdev-newspec hello
+mv hello.spec ~/rpmbuild/SPECS
+
+tree ~/rpmbuild
+
+rpm --eval '%{_bindir}'
+rpm --eval '%{_sysconfdir}'
+rpm --eval '%{_localstatedir}'
+rpm --eval '%{nginx_user}'
+
+
+
+rpmlint ~/rpmbuild/SPECS/hello.spec
+
+rpmbuild -bs ~/rpmbuild/SPECS/hello.spec
+rpmbuild -bb ~/rpmbuild/SPECS/hello.spec
+
+#Wrote: /root/rpmbuild/SRPMS/hello-0.0.1-1.el9.src.rpm
+
+sudo dnf install /root/rpmbuild/RPMS/noarch/hello-0.0.1-1.el9.noarch.rpm
+alternative
+sudo rpm -ivh /root/rpmbuild/RPMS/noarch/hello-0.0.1-1.el9.noarch.rpm
+
+rpm -qi hello
+
+
+sudo dnf remove hello
+
+sudo rpm --verbose --erase hello
