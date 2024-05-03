@@ -24,14 +24,7 @@ steps:
       - mkdir ~/.ssh
       - touch ~/.ssh/known_hosts
 
-
-      - eval $(ssh-agent -s)
-      - touch ~/.ssh/id_rsa
-#      - echo -e "${SSH_DEPLOY_KEY}" > ~/.ssh/id_rsa
-      - echo -e "${SSH_DEPLOY_KEY}" | ssh-add -
-
-      - chmod 0400 ~/.ssh/id_rsa
-      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      - eval $(ssh-agent -s) echo "${SSH_DEPLOY_KEY}" | tr -d '\r' | ssh-add - > /dev/null mkdir -p ~/.ssh chmod 700 ~/.ssh ssh-keyscan github.com >> ~/.ssh/known_hosts chmod 644 ~/.ssh/known_hosts
 
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
