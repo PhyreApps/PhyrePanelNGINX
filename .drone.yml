@@ -29,7 +29,7 @@ steps:
       - touch ~/.ssh/known_hosts
 
       - eval `ssh-agent -s`
-      - echo "$SSH_DEPLOY_KEY" | ssh-add -
+      - echo "$SSH_DEPLOY_KEY" > ~/.ssh/id_rsa
       - chmod 0400 ~/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
