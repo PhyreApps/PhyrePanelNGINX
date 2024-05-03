@@ -17,8 +17,8 @@ steps:
 #      - cp /drone/src/compilators/centos/nginx/phyre-nginx.spec ~/rpmbuild/SPECS/phyre-nginx.spec
 #      - tree ~/rpmbuild
 #      - rpmbuild -bb ~/rpmbuild/SPECS/phyre-nginx.spec
-      - mkdir -p ~/rpmbuild/RPMS/x86_64
-      - touch ~/rpmbuild/RPMS/x86_64/phyre-nginx-1.25.5-1.el9.x86_64.rpm
+      - mkdir -p /drone/src/deploy.txt
+      - touch /drone/src/deploy.txt
 
   - name: git-push
     image: appleboy/drone-git-push
@@ -27,4 +27,4 @@ steps:
       remote: git@github.com:PhyreApps/Distributions.git
       force: false
       commit: true
-      path: ~/rpmbuild/RPMS/x86_64/phyre-nginx-1.25.5-1.el9.x86_64.rpm
+      path: /drone/src/deploy.txt
