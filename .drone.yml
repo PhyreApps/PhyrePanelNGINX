@@ -36,7 +36,7 @@ steps:
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
       - git config --global user.signingkey ~/.ssh/id_rsa
-      - git clone git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
+      - git clone ssh://git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
       - cd /drone/src/Distributions
       - git checkout -b main
       - mv /drone/src/deploy.txt /drone/src/Distributions
