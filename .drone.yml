@@ -24,7 +24,9 @@ steps:
     image: appleboy/drone-git-push
     settings:
       branch: main
-      remote: https://github.com/PhyreApps/Distributions.git
+      ssh_key:
+        from_secret: ssh_deploy_key
+      remote: git@github.com:PhyreApps/Distributions.git
       force: false
       commit: true
       path: /drone/src/deploy.txt
