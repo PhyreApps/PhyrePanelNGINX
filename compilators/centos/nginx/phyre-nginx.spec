@@ -17,23 +17,22 @@ Source8: nginx.copyright
 Source9: nginx.check-reload.sh
 
 %description
-
+Phyre Nginx is a web server for PhyrePanel.
 
 %prep
-%autosetup -p1 -n nginx-1.25.5
+# we have no source, so nothing here
 
 %build
+cd nginx-1.25.5
 ./configure --prefix=/usr/local/phyre/nginx
-mv /usr/local/phyre/nginx/sbin/nginx /usr/local/phyre/nginx/sbin/phyre-nginx
-rm -rf /usr/local/phyre/nginx/sbin/nginx/nginx.old
-wget https://raw.githubusercontent.com/PhyreApps/PhyrePanelNGINX/main/compilators/debian/nginx/nginx.conf -O /usr/local/phyre/nginx/conf/nginx.conf
+
+%make_install
+mv $RPM_BUILD_ROOT/usr/local/phyre/nginx/sbin/nginx $RPM_BUILD_ROOT/usr/local/phyre/nginx/sbin/phyre-nginx
+rm -rf $RPM_BUILD_ROOT/usr/local/phyre/nginx/sbin/nginx.old
+wget https://raw.githubusercontent.com/PhyreApps/PhyrePanelNGINX/main/compilators/debian/nginx/nginx.conf -O $RPM_BUILD_ROOT/usr/local/phyre/nginx/conf/nginx.conf
 
 %files
 /usr/local/phyre/nginx
-
-%install
-rm -rf $RPM_BUILD_ROOT
-%make_install
 
 %changelog
 * Tue May 03 2024 Phyre Nginx Packaging <phyre-nginx-packaging@phyrepanel.com> - 1.25.5-1%{?dist}.ngx
