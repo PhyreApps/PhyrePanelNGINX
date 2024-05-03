@@ -5,6 +5,7 @@ steps:
   - name: run nginx build
     image: centos:latest
     commands:
+      - dnf -y install sudo wget
       - wget -q -O - http://www.atomicorp.com/installers/atomic | sh 
       - dnf -y install geoip-devel perl openssl-devel gd-devel libxslt-devel zlib-devel pcre-devel rpm-build gcc make rpmdevtools rpmlint tree
       - useradd builder -m
