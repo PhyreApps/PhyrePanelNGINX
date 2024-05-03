@@ -24,9 +24,9 @@ steps:
       - dnf -y install git
       - mkdir -p /drone/src/deploy.txt
       - touch /drone/src/deploy.txt
-      
+
       - touch ~/.ssh/known_hosts
-      - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com >> /root/.ssh/known_hosts
 
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
