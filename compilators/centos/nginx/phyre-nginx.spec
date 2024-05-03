@@ -1,9 +1,6 @@
 #
-%define _localstatedir /var/phyre
-%define _sysconfdir /etc/phyre
-
-%define nginx_home %{_localstatedir}/cache/nginx
-%define nginx_user root
+%define nginx_home %{_localstatedir}/cache/phyre-nginx
+%define nginx_user nginx
 %define nginx_group nginx
 %define nginx_loggroup adm
 
@@ -82,17 +79,17 @@ Requires(pre): shadow-utils
 %define WITH_CC_OPT $(echo %{optflags} $(pcre2-config --cflags)) -fPIC
 %define WITH_LD_OPT -Wl,-z,relro -Wl,-z,now -pie
 
-%define BASE_CONFIGURE_ARGS $(echo "--prefix=%{_sysconfdir}/nginx --sbin-path=%{_sbindir}/phyre-nginx --modules-path=%{_libdir}/nginx/modules --conf-path=%{_sysconfdir}/nginx/nginx.conf --error-log-path=%{_localstatedir}/log/nginx/error.log --http-log-path=%{_localstatedir}/log/nginx/access.log --pid-path=%{_localstatedir}/run/nginx.pid --lock-path=%{_localstatedir}/run/nginx.lock --http-client-body-temp-path=%{_localstatedir}/cache/nginx/client_temp --http-proxy-temp-path=%{_localstatedir}/cache/nginx/proxy_temp --http-fastcgi-temp-path=%{_localstatedir}/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=%{_localstatedir}/cache/nginx/uwsgi_temp --http-scgi-temp-path=%{_localstatedir}/cache/nginx/scgi_temp --user=%{nginx_user} --group=%{nginx_group} --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module $( if [ 0%{?rhel} -eq 7 ] || [ 0%{?suse_version} -eq 1315 ]; then continue; else echo "--with-http_v3_module"; fi; ) --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module")
+%define BASE_CONFIGURE_ARGS $(echo "--prefix=%{_sysconfdir}/phyre-nginx --sbin-path=%{_sbindir}/phyre-nginx --modules-path=%{_libdir}/phyre-nginx/modules --conf-path=%{_sysconfdir}/phyre-nginx/phyre-nginx.conf --error-log-path=%{_localstatedir}/log/phyre-nginx/error.log --http-log-path=%{_localstatedir}/log/phyre-nginx/access.log --pid-path=%{_localstatedir}/run/phyre-nginx.pid --lock-path=%{_localstatedir}/run/phyre-nginx.lock --http-client-body-temp-path=%{_localstatedir}/cache/phyre-nginx/client_temp --http-proxy-temp-path=%{_localstatedir}/cache/phyre-nginx/proxy_temp --http-fastcgi-temp-path=%{_localstatedir}/cache/phyre-nginx/fastcgi_temp --http-uwsgi-temp-path=%{_localstatedir}/cache/phyre-nginx/uwsgi_temp --http-scgi-temp-path=%{_localstatedir}/cache/phyre-nginx/scgi_temp --user=%{nginx_user} --group=%{nginx_group} --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module $( if [ 0%{?rhel} -eq 7 ] || [ 0%{?suse_version} -eq 1315 ]; then continue; else echo "--with-http_v3_module"; fi; ) --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module")
 
 Summary: High performance web server
 Name: nginx
 Version: %{base_version}
 Release: %{base_release}
 Vendor: NGINX Packaging <nginx-packaging@f5.com>
-URL: https://nginx.org/
+URL: https://phyre-nginx.org/
 Group: %{_group}
 
-Source0: https://nginx.org/download/%{name}-%{version}.tar.gz
+Source0: https://phyre-nginx.org/download/%{name}-%{version}.tar.gz
 Source1: logrotate
 Source2: nginx.conf
 Source3: nginx.default.conf
@@ -135,8 +132,8 @@ a mail proxy server.
     --with-ld-opt="%{WITH_LD_OPT}" \
     --with-debug
 make %{?_smp_mflags}
-%{__mv} %{bdir}/objs/nginx \
-    %{bdir}/objs/nginx-debug
+%{__mv} %{bdir}/objs/phyre-nginx \
+    %{bdir}/objs/phyre-nginx-debug
 ./configure %{BASE_CONFIGURE_ARGS} \
     --with-cc-opt="%{WITH_CC_OPT}" \
     --with-ld-opt="%{WITH_LD_OPT}"
@@ -146,61 +143,61 @@ make %{?_smp_mflags}
 %{__rm} -rf $RPM_BUILD_ROOT
 %{__make} DESTDIR=$RPM_BUILD_ROOT INSTALLDIRS=vendor install
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/nginx
-%{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/html $RPM_BUILD_ROOT%{_datadir}/nginx/
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/phyre-nginx
+%{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/html $RPM_BUILD_ROOT%{_datadir}/phyre-nginx/
 
-%{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/nginx/*.default
-%{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/nginx/fastcgi.conf
+%{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/*.default
+%{__rm} -f $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/fastcgi.conf
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_localstatedir}/log/nginx
-%{__mkdir} -p $RPM_BUILD_ROOT%{_localstatedir}/run/nginx
-%{__mkdir} -p $RPM_BUILD_ROOT%{_localstatedir}/cache/nginx
+%{__mkdir} -p $RPM_BUILD_ROOT%{_localstatedir}/log/phyre-nginx
+%{__mkdir} -p $RPM_BUILD_ROOT%{_localstatedir}/run/phyre-nginx
+%{__mkdir} -p $RPM_BUILD_ROOT%{_localstatedir}/cache/phyre-nginx
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_libdir}/nginx/modules
-cd $RPM_BUILD_ROOT%{_sysconfdir}/nginx && \
-    %{__ln_s} ../..%{_libdir}/nginx/modules modules && cd -
+%{__mkdir} -p $RPM_BUILD_ROOT%{_libdir}/phyre-nginx/modules
+cd $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx && \
+    %{__ln_s} ../..%{_libdir}/phyre-nginx/modules modules && cd -
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{base_version}
 %{__install} -m 644 -p %{SOURCE8} \
     $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{base_version}/COPYRIGHT
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d
-%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/nginx.conf
+%{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/conf.d
+%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/phyre-nginx.conf
 %{__install} -m 644 -p %{SOURCE2} \
-    $RPM_BUILD_ROOT%{_sysconfdir}/nginx/nginx.conf
+    $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/phyre-nginx.conf
 %{__install} -m 644 -p %{SOURCE3} \
-    $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/default.conf
+    $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/conf.d/default.conf
 
-%{__install} -p -D -m 0644 %{bdir}/objs/nginx.8 \
-    $RPM_BUILD_ROOT%{_mandir}/man8/nginx.8
+%{__install} -p -D -m 0644 %{bdir}/objs/phyre-nginx.8 \
+    $RPM_BUILD_ROOT%{_mandir}/man8/phyre-nginx.8
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_unitdir}
 %{__install} -m644 %SOURCE4 \
-    $RPM_BUILD_ROOT%{_unitdir}/nginx.service
+    $RPM_BUILD_ROOT%{_unitdir}/phyre-nginx.service
 %{__install} -m644 %SOURCE7 \
-    $RPM_BUILD_ROOT%{_unitdir}/nginx-debug.service
-%{__mkdir} -p $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/nginx
+    $RPM_BUILD_ROOT%{_unitdir}/phyre-nginx-debug.service
+%{__mkdir} -p $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/phyre-nginx
 %{__install} -m755 %SOURCE5 \
-    $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/nginx/upgrade
+    $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/phyre-nginx/upgrade
 %{__install} -m755 %SOURCE9 \
-    $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/nginx/check-reload
+    $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/phyre-nginx/check-reload
 
 # install log rotation stuff
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 %if 0%{?suse_version}
 %{__install} -m 644 -p %{SOURCE6} \
-    $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/nginx
+    $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/phyre-nginx
 %else
 %{__install} -m 644 -p %{SOURCE1} \
-    $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/nginx
+    $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/phyre-nginx
 %endif
 
-%{__install} -m755 %{bdir}/objs/nginx-debug \
-    $RPM_BUILD_ROOT%{_sbindir}/nginx-debug
+%{__install} -m755 %{bdir}/objs/phyre-nginx-debug \
+    $RPM_BUILD_ROOT%{_sbindir}/phyre-nginx-debug
 
-%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/koi-utf
-%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/koi-win
-%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/win-utf
+%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/koi-utf
+%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/koi-win
+%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/win-utf
 
 %check
 %{__rm} -rf $RPM_BUILD_ROOT/usr/src
@@ -220,46 +217,46 @@ cat /dev/null > debugsourcefiles.list
 %{_sbindir}/phyre-nginx
 %{_sbindir}/phyre-nginx-debug
 
-%dir %{_sysconfdir}/nginx
-%dir %{_sysconfdir}/nginx/conf.d
-%{_sysconfdir}/nginx/modules
+%dir %{_sysconfdir}/phyre-nginx
+%dir %{_sysconfdir}/phyre-nginx/conf.d
+%{_sysconfdir}/phyre-nginx/modules
 
-%config(noreplace) %{_sysconfdir}/nginx/nginx.conf
-%config(noreplace) %{_sysconfdir}/nginx/conf.d/default.conf
-%config(noreplace) %{_sysconfdir}/nginx/mime.types
-%config(noreplace) %{_sysconfdir}/nginx/fastcgi_params
-%config(noreplace) %{_sysconfdir}/nginx/scgi_params
-%config(noreplace) %{_sysconfdir}/nginx/uwsgi_params
+%config(noreplace) %{_sysconfdir}/phyre-nginx/phyre-nginx.conf
+%config(noreplace) %{_sysconfdir}/phyre-nginx/conf.d/default.conf
+%config(noreplace) %{_sysconfdir}/phyre-nginx/mime.types
+%config(noreplace) %{_sysconfdir}/phyre-nginx/fastcgi_params
+%config(noreplace) %{_sysconfdir}/phyre-nginx/scgi_params
+%config(noreplace) %{_sysconfdir}/phyre-nginx/uwsgi_params
 
-%config(noreplace) %{_sysconfdir}/logrotate.d/nginx
+%config(noreplace) %{_sysconfdir}/logrotate.d/phyre-nginx
 %{_unitdir}/phyre-nginx.service
 %{_unitdir}/phyre-nginx-debug.service
-%dir %{_libexecdir}/initscripts/legacy-actions/nginx
-%{_libexecdir}/initscripts/legacy-actions/nginx/*
+%dir %{_libexecdir}/initscripts/legacy-actions/phyre-nginx
+%{_libexecdir}/initscripts/legacy-actions/phyre-nginx/*
 
-%attr(0755,root,root) %dir %{_libdir}/nginx
-%attr(0755,root,root) %dir %{_libdir}/nginx/modules
-%dir %{_datadir}/nginx
-%dir %{_datadir}/nginx/html
-%{_datadir}/nginx/html/*
+%attr(0755,root,root) %dir %{_libdir}/phyre-nginx
+%attr(0755,root,root) %dir %{_libdir}/phyre-nginx/modules
+%dir %{_datadir}/phyre-nginx
+%dir %{_datadir}/phyre-nginx/html
+%{_datadir}/phyre-nginx/html/*
 
-%attr(0755,root,root) %dir %{_localstatedir}/cache/nginx
-%attr(0755,root,root) %dir %{_localstatedir}/log/nginx
+%attr(0755,root,root) %dir %{_localstatedir}/cache/phyre-nginx
+%attr(0755,root,root) %dir %{_localstatedir}/log/phyre-nginx
 
 %dir %{_datadir}/doc/%{name}-%{base_version}
 %doc %{_datadir}/doc/%{name}-%{base_version}/COPYRIGHT
 %{_mandir}/man8/phyre-nginx.8*
 
 %pre
-# Add the "phyre-nginx" user
+# Add the "nginx" user
 getent group %{nginx_group} >/dev/null || groupadd -r %{nginx_group}
 getent passwd %{nginx_user} >/dev/null || \
     useradd -r -g %{nginx_group} -s /sbin/nologin \
-    -d %{nginx_home} -c "phyre-nginx user"  %{nginx_user}
+    -d %{nginx_home} -c "nginx user"  %{nginx_user}
 exit 0
 
 %post
-# Register the phyre nginx service
+# Register the nginx service
 if [ $1 -eq 1 ]; then
     /usr/bin/systemctl preset phyre-nginx.service >/dev/null 2>&1 ||:
     /usr/bin/systemctl preset phyre-nginx-debug.service >/dev/null 2>&1 ||:
@@ -267,34 +264,34 @@ if [ $1 -eq 1 ]; then
     cat <<BANNER
 ----------------------------------------------------------------------
 
-Thanks for using phyre-nginx!
+Thanks for using nginx!
 
 Please find the official documentation for nginx here:
-* https://nginx.org/en/docs/
+* https://phyre-nginx.org/en/docs/
 
 Please subscribe to nginx-announce mailing list to get
 the most important news about nginx:
-* https://nginx.org/en/support.html
+* https://phyre-nginx.org/en/support.html
 
 Commercial subscriptions for nginx are available on:
-* https://nginx.com/products/
+* https://phyre-nginx.com/products/
 
 ----------------------------------------------------------------------
 BANNER
 
     # Touch and set permisions on default log files on installation
 
-    if [ -d %{_localstatedir}/log/nginx ]; then
-        if [ ! -e %{_localstatedir}/log/nginx/access.log ]; then
-            touch %{_localstatedir}/log/nginx/access.log
-            %{__chmod} 640 %{_localstatedir}/log/nginx/access.log
-            %{__chown} phyre-nginx:%{nginx_loggroup} %{_localstatedir}/log/nginx/access.log
+    if [ -d %{_localstatedir}/log/phyre-nginx ]; then
+        if [ ! -e %{_localstatedir}/log/phyre-nginx/access.log ]; then
+            touch %{_localstatedir}/log/phyre-nginx/access.log
+            %{__chmod} 640 %{_localstatedir}/log/phyre-nginx/access.log
+            %{__chown} nginx:%{nginx_loggroup} %{_localstatedir}/log/phyre-nginx/access.log
         fi
 
-        if [ ! -e %{_localstatedir}/log/nginx/error.log ]; then
-            touch %{_localstatedir}/log/nginx/error.log
-            %{__chmod} 640 %{_localstatedir}/log/nginx/error.log
-            %{__chown} phyre-nginx:%{nginx_loggroup} %{_localstatedir}/log/nginx/error.log
+        if [ ! -e %{_localstatedir}/log/phyre-nginx/error.log ]; then
+            touch %{_localstatedir}/log/phyre-nginx/error.log
+            %{__chmod} 640 %{_localstatedir}/log/phyre-nginx/error.log
+            %{__chown} phyre-nginx:%{nginx_loggroup} %{_localstatedir}/log/phyre-nginx/error.log
         fi
     fi
 fi
@@ -310,10 +307,11 @@ fi
 if [ $1 -ge 1 ]; then
     /sbin/service phyre-nginx status  >/dev/null 2>&1 || exit 0
     /sbin/service phyre-nginx upgrade >/dev/null 2>&1 || echo \
-        "Binary upgrade failed, please check phyre nginx's error.log"
+        "Binary upgrade failed, please check nginx's error.log"
 fi
+
 
 %changelog
 * Tue May 03 2024 Phyre Nginx Packaging <phyre-nginx-packaging@phyrepanel.com> - 1.25.5-1%{?dist}.ngx
 - 1.25.5-1
-- Initial release of Phyre Nginx
+- Initial release of Phyre Nginx 1.25.5
