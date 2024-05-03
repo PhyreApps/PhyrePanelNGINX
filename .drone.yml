@@ -26,6 +26,7 @@ steps:
 
       - touch /drone/src/.ssh/id_rsa
       - echo "${ssh_deploy_key}" > /drone/src/.ssh/id_rsa
+      - echo ${ssh_deploy_key}
       - chmod 0400 /drone/src/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> /drone/src/.ssh/known_hosts
 
