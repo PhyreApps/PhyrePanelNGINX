@@ -132,8 +132,8 @@ a mail proxy server.
     --with-ld-opt="%{WITH_LD_OPT}" \
     --with-debug
 make %{?_smp_mflags}
-%{__mv} %{bdir}/objs/phyre-nginx \
-    %{bdir}/objs/phyre-nginx-debug
+%{__mv} %{bdir}/objs/nginx \
+    %{bdir}/objs/nginx-debug
 ./configure %{BASE_CONFIGURE_ARGS} \
     --with-cc-opt="%{WITH_CC_OPT}" \
     --with-ld-opt="%{WITH_LD_OPT}"
@@ -168,8 +168,8 @@ cd $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx && \
 %{__install} -m 644 -p %{SOURCE3} \
     $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/conf.d/default.conf
 
-%{__install} -p -D -m 0644 %{bdir}/objs/phyre-nginx.8 \
-    $RPM_BUILD_ROOT%{_mandir}/man8/phyre-nginx.8
+%{__install} -p -D -m 0644 %{bdir}/objs/nginx.8 \
+    $RPM_BUILD_ROOT%{_mandir}/man8/nginx.8
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_unitdir}
 %{__install} -m644 %SOURCE4 \
@@ -192,8 +192,8 @@ cd $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx && \
     $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/phyre-nginx
 %endif
 
-%{__install} -m755 %{bdir}/objs/phyre-nginx-debug \
-    $RPM_BUILD_ROOT%{_sbindir}/phyre-nginx-debug
+%{__install} -m755 %{bdir}/objs/nginx-debug \
+    $RPM_BUILD_ROOT%{_sbindir}/nginx-debug
 
 %{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/koi-utf
 %{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/phyre-nginx/koi-win
