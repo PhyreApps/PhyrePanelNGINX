@@ -23,18 +23,13 @@ Source9: nginx.check-reload.sh
 %autosetup -p1 -n nginx-1.25.5
 
 %build
-./configure
+./configure --prefix=/usr/local/phyre/nginx
 make
 make install
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %make_install
-
-
-%files
-%license GPL
-%doc README.md
 
 %changelog
 * Tue May 03 2024 Phyre Nginx Packaging <phyre-nginx-packaging@phyrepanel.com> - 1.25.5-1%{?dist}.ngx
