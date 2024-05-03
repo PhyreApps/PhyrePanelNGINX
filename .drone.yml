@@ -24,8 +24,8 @@ steps:
       - mkdir ~/.ssh
       - touch ~/.ssh/known_hosts
 
+      - eval `ssh-agent -s`
       - echo “${SSH_DEPLOY_KEY}” | ssh-add – > /dev/null
-
       - chmod 0400 ~/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
