@@ -27,6 +27,9 @@ Source9: nginx.check-reload.sh
 make
 make install
 
+%files
+/$RPM_BUILD_ROOT/usr/local/phyre/nginx
+
 %install
 rm -rf $RPM_BUILD_ROOT
 %make_install
