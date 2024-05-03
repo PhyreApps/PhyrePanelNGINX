@@ -38,9 +38,8 @@ steps:
       - git config --global user.signingkey ~/.ssh/id_rsa
       - git clone git@github.com:PhyreApps/Distributions.git /drone/src/Distributions
       - cd /drone/src/Distributions
-      - git checkout -b main
       - mv /drone/src/deploy.txt /drone/src/Distributions
       - git add .
       - git commit -m "Deploy to CentOS"
-      - git push origin main
+      - git push
       - echo "Deployed to CentOS"
