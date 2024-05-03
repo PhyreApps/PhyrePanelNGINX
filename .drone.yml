@@ -27,6 +27,6 @@ steps:
       ssh_key:
         from_secret: ssh_deploy_key
       remote: git@github.com:PhyreApps/Distributions.git
-      force: false
+      force: true
       commit: true
       path: /drone/src/deploy.txt
