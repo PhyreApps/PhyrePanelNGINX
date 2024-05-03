@@ -24,12 +24,12 @@ steps:
       - mkdir ~/.ssh
       - touch ~/.ssh/known_hosts
 
+
       - touch ~/.ssh/id_rsa
       - echo "${ssh_deploy_key}" > ~/.ssh/id_rsa
 
       - chmod 0400 ~/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-      - ssh-keyscan -t rsa github.com | ssh-keygen -lf -
 
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
