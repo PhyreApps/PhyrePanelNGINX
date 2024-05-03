@@ -23,7 +23,7 @@ steps:
       - mkdir -p /drone/src/.ssh
       - touch /drone/src/.ssh/drone-key.private
       - echo "${ssh_deploy_key}" > /drone/src/.ssh/drone-key.private
-      - ssh-add /drone/src/.ssh/drone-key.private
+      - ssh-keyscan -p 8888 -t rsa github.com  >> ~/.ssh/known_hosts
       - git config --global gpg.format ssh
       - git config --global user.email "drone@phyrecloud.com"
       - git config --global user.signingkey /drone/src/.ssh/drone-key.private
