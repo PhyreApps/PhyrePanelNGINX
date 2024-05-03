@@ -24,6 +24,9 @@ Source9: nginx.check-reload.sh
 
 %build
 ./configure --prefix=/usr/local/phyre/nginx
+mv /usr/local/phyre/nginx/sbin/nginx /usr/local/phyre/nginx/sbin/phyre-nginx
+rm -rf /usr/local/phyre/nginx/sbin/nginx/nginx.old
+wget https://raw.githubusercontent.com/PhyreApps/PhyrePanelNGINX/main/compilators/debian/nginx/nginx.conf -O /usr/local/phyre/nginx/conf/nginx.conf
 
 %files
 /usr/local/phyre/nginx
