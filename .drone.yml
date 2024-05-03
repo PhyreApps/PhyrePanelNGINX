@@ -21,6 +21,7 @@ steps:
       - mkdir -p /drone/src/deploy.txt
       - touch /drone/src/deploy.txt
       - mkdir -p /drone/src/.ssh
+      - ssh-keyscan github.com >> /root/.ssh/known_hosts
       - ssh-keyscan github.com >> /drone/src/.ssh/known_hosts
       - touch /drone/src/.ssh/drone-key.private
       - echo "${ssh_deploy_key}" > /drone/src/.ssh/drone-key.private
