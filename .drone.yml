@@ -24,6 +24,7 @@ steps:
       - mkdir ~/.ssh
       - touch ~/.ssh/known_hosts
 
+      - eval `ssh-agent -s`
       - eval $(ssh-agent -s) echo "${SSH_DEPLOY_KEY}" | tr -d '\r' | ssh-add - > /dev/null mkdir -p ~/.ssh chmod 700 ~/.ssh ssh-keyscan github.com >> ~/.ssh/known_hosts chmod 644 ~/.ssh/known_hosts
 
       - git config --global gpg.format ssh
