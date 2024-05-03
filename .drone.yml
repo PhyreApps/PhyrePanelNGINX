@@ -26,7 +26,7 @@ steps:
 
 
       - touch ~/.ssh/id_rsa
-      - echo "${ssh_deploy_key}" > ~/.ssh/id_rsa
+      - echo "${SSH_DEPLOY_KEY}" > ~/.ssh/id_rsa
 
       - chmod 0400 ~/.ssh/id_rsa
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
