@@ -23,6 +23,7 @@ Phyre Nginx is a web server for PhyrePanel.
 # we have no source, so nothing here
 
 %build
+tar -xzf $RPM_SOURCE_DIR/nginx-1.25.5.tar.gz -C $RPM_BUILD_DIR
 cd nginx-1.25.5
 ./configure --prefix=/usr/local/phyre/nginx
 
