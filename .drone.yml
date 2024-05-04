@@ -34,7 +34,7 @@ steps:
       - git config --global user.signingkey ~/.ssh/id_rsa
       - mkdir /DistributionsGIT
       - cd /DistributionsGIT
-      - git clone git@github.com:PhyreApps/Distributions.git
+      - git clone git@github.com:PhyreApps/PhyrePanelNGINX.git
       - ls -la
       - cd Distributions
       - mkdir -p compilators/centos/nginx/dist

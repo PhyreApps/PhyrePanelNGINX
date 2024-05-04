@@ -65,3 +65,6 @@ rpm -qi hello
 sudo dnf remove hello
 
 sudo rpm --verbose --erase hello
+
+
+ssh-keygen -t rsa
