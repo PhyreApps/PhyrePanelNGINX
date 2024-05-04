@@ -32,11 +32,11 @@ steps:
 
       - git config --global user.email "drone@phyrecloud.com"
       - git config --global user.signingkey ~/.ssh/id_rsa
-      - mkdir /DistributionsGIT
-      - cd /DistributionsGIT
+      - mkdir /PhyrePanelNGINXGit
+      - cd /PhyrePanelNGINXGit
       - git clone git@github.com:PhyreApps/PhyrePanelNGINX.git
       - ls -la
-      - cd Distributions
+      - cd PhyrePanelNGINX
       - mkdir -p compilators/centos/nginx/dist
       - mv /root/rpmbuild/RPMS/x86_64/phyre-nginx-1.25.5-1.el8.x86_64.rpm compilators/centos/nginx/dist
       - git add .
