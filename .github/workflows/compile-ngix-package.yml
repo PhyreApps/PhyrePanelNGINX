@@ -6,12 +6,11 @@ on:
       os_type:
         description: 'OS'
         required: true
-        default: 'ubuntu-22.04'
+        default: 'ubuntu-24.04'
         type: choice
         options:
           - ubuntu-24.04
           - ubuntu-22.04
-          - ubuntu-20.04
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
