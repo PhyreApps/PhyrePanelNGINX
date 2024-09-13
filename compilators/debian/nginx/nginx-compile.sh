@@ -13,7 +13,7 @@ tar -zxvf nginx-1.24.0.tar.gz
 cd nginx-1.24.0
 
 # Configure nginx
-sudo ./configure --prefix=/usr/local/phyre/nginx
+sudo ./configure --prefix=/usr/local/phyre/nginx --with-http_ssl_module 
 sudo make
 sudo make install
 
